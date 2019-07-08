@@ -51,5 +51,12 @@ playlistRoutes.route('/update/:id').post(function (req, res) {
 });
 });
 
+playlistRoutes.route('/delete/:id').get(function (req, res) {
+  Playlist.findByIdAndRemove({_id: req.params.id}, function(err, playlist){
+      if(err) res.json(err);
+      else res.json('Successfully removed');
+  });
+})
+
 
 module.exports = playlistRoutes;
