@@ -26,4 +26,30 @@ playlistRoutes.route('/').get(function(req, res) {
   })
 })
 
+playlistRoutes.route('/edit/:id').get(function(req, res) {
+  let id = req.params.id;
+  Playlist.findById(id, function(err, playlist) {
+    res.json(playlist)
+  })
+})
+
+playlistRoutes.route('/update/:id').post(function (req, res) {
+  Playlist.findById(req.params.id, function(err, playlist) {
+  if (!playlist)
+    res.status(404).send("data is not found");
+  else {
+      playlist.playlist_name = req.body.playlist_name;
+      playlist.playlist_cover_art_url = req.body.playlist_cover_art_url;
+
+      playlist.save().then(playlist => {
+        res.json('Update complete');
+    })
+    .catch(err => {
+          res.status(400).send("unable to update the database");
+    });
+  }
+});
+});
+
+
 module.exports = playlistRoutes;

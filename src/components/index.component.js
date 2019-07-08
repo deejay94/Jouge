@@ -17,6 +17,17 @@ export default class Index extends Component {
           console.log(error);
         })
     }
+
+    componentDidUpdate() {
+      axios.get('http://localhost:4000/playlist')
+      .then(response => {
+          this.setState({ playlist: response.data });
+          })
+          .catch(function (error) {
+          console.log(error);
+          })
+  }
+
     tabRow(){
       return this.state.playlist.map(function(object, i){
           return <TableRow obj={object} key={i} />;
