@@ -6,6 +6,8 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const config = require('./DB.js');
 const playlistRoute = require('./playlist.route');
+const songRoute = require('./song.route');
+
 
 
 mongoose.Promise = global.Promise;
@@ -19,6 +21,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
 app.use('/playlist', playlistRoute);
+app.use('/song', songRoute);
 
 app.listen(PORT, function(){
   console.log('Server is running on Port:',PORT);
