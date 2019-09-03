@@ -3,19 +3,37 @@ import axios from 'axios';
 import TableRow from './TableRow';
 
 export default class Index extends Component {
+  _isMounted = false
 
   constructor(props) {
       super(props);
-      this.state = {playlist: []};
+      this.state = {
+        isLoading: true,
+        playlist: [],
+        signal: axios.CancelToken.source()
+      };
     }
+
+    abortController = new AbortController()
+
     componentDidMount(){
+      this._isMounted = true
       axios.get('http://localhost:4000/playlist')
         .then(response => {
-          this.setState({ playlist: response.data });
+          if (this._isMounted) {
+          this.setState({ 
+            playlist: response.data,
+            isLoading: true
+           });
+          }
         })
         .catch(function (error) {
           console.log(error);
         })
+    }
+
+    componentWillUnmount() {
+      this._isMounted = false;
     }
 
     componentDidUpdate() {
